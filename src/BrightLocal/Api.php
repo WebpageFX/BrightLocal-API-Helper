@@ -82,13 +82,13 @@ class Api {
             if ($httpMethod === static::HTTP_METHOD_GET) {
                 $result = $client->get($this->endpoint . $method, array('query' => $params));
             } else {
-                $result = $client->$httpMethod($this->endpoint . $method, array('body' => $params));
+                $result = $client->$httpMethod($this->endpoint . $method, array('form_params' => $params));
             }
         } catch (RequestException $e) {
             $result = $e->getResponse();
         }
         $this->lastHttpCode = $result->getStatusCode();
-        return $result->json();
+        return json_decode($result->getBody(), true);
     }
 
     /**
